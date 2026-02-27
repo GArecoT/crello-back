@@ -1,5 +1,6 @@
 {
   "port": 8000,
-  "db": "test.db",
-  "senha_padrao": "senha123"
+  "db": "test",
+  "senha_padrao": "senha123",
+  "segredo_jwt": "chave-super-secreta-segredável"
 }

@@ -1,8 +1,7 @@
 import consts from "./composables/consts.json" with { type: "json" };
 import manutencaoDB from "./controllers/manutencaoDB.ts";
 
-manutencaoDB();
-
+await manutencaoDB();
 Deno.serve({ port: consts.port }, async (req) => {
   try {
     const url = new URL(req.url);

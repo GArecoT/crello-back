@@ -17,7 +17,11 @@ export default async function (login: Login): Promise<RespostaInterna> {
   if (usuarios.length > 0) {
     const senhaHash = await hash(login.senha);
     if (usuarios[0]?.senha === senhaHash) {
-      return { status: true, msg: "Login feito com sucesso!", data: {} };
+      return {
+        status: true,
+        msg: "Login feito com sucesso!",
+        data: usuarios[0],
+      };
     } else {
       return { status: false, msg: "Senha Errada!", data: {} };
     }

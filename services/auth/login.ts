@@ -1,5 +1,7 @@
+import criarToken from "../../composables/criarToken.ts";
 import { Login, Resposta } from "../../composables/tipos.ts";
 import fnLogin from "../../controllers/login.ts";
+import salvaToken from "../../controllers/salvaToken.ts";
 
 export default async function (
   login: Login,
@@ -32,6 +34,8 @@ export default async function (
 
   const retLogin = await fnLogin(login);
   if (retLogin.status) {
+    const token = await criarToken(login);
+    salvaToken(token);
     body = {
       info: { msg: retLogin.msg, cdg_erro: 0 },
       data: { chave: "xxx" },

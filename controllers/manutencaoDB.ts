@@ -14,8 +14,9 @@ export default async function () {
   const db = new Database(`${consts.db}.db`);
   const senha = await criaSenhaAdmin();
 
+  //Criar table usuarios
   db.exec(
-    "CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT UNIQUE, senha VARCHAR(50));",
+    `CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT UNIQUE, senha VARCHAR(50));`,
   );
 
   try {
@@ -27,7 +28,14 @@ export default async function () {
   } catch {
     //já está cadastrado o admin
   }
-  // console.log(version);
+
+  db.exec(
+    `
+      CREATE TABLE IF NOT EXISTS tokens(
+      token VARCHAR(50) PRIMARY KEY,
+      expirar DATETIME DEFAULT CURRENT_TIMESTAMP);
+      `,
+  );
 
   db.close();
 }
