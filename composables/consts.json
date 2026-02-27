@@ -1,0 +1,5 @@
+{
+  "port": 8000,
+  "db": "test.db",
+  "senha_padrao": "senha123"
+}
