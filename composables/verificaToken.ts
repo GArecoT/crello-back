@@ -29,7 +29,7 @@ export function verificaToken(token: string | null): RespostaInterna {
     return {
       status: true,
       msg: "Token válido!",
-      data: {},
+      data: tokens[0],
     };
   } else {
     return { status: false, msg: "Token expirado/inválido", data: {} };
