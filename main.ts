@@ -8,13 +8,14 @@ Deno.serve({ port: consts.port }, async (req) => {
     const servico = await import(`./services${url.pathname}.ts`);
 
     if (req.method == "GET") {
-      return servico.default();
+      return servico.default(req.method, req.headers);
     } else {
       try {
         const body = await req.json();
-        return servico.default(body, req.method);
+
+        return servico.default(body, req.method, req.headers);
       } catch {
-        return servico.default({});
+        return servico.default({}, req.method, req.headers);
       }
     }
   } catch {
