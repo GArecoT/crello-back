@@ -11,5 +11,12 @@ export type RespostaInterna = {
 
 export type Resposta = {
   info: { msg: string; cdg_erro: number };
-  data?: object;
+  data: { [key: string]: any } | [] | string;
+};
+
+export type Usuario = {
+  id?: number;
+  nome?: string;
+  senha?: string;
+  admin?: boolean;
 };
