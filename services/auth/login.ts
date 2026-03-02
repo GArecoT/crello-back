@@ -6,6 +6,7 @@ import salvaToken from "../../controllers/salvaToken.ts";
 export default async function (
   login: Login,
   method: string,
+  _headers: object,
 ): Promise<Response> {
   let body: Resposta;
 

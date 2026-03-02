@@ -18,7 +18,8 @@ Deno.serve({ port: consts.port }, async (req) => {
         return servico.default({}, req.method, req.headers);
       }
     }
-  } catch {
+  } catch (e) {
+    console.log(e);
     const body = JSON.stringify({ message: "SERVICE NOT FOUND" });
     return new Response(body, {
       status: 404,
