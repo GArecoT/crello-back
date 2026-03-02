@@ -38,7 +38,7 @@ export default async function (
     salvaToken(token);
     body = {
       info: { msg: retLogin.msg, cdg_erro: 0 },
-      data: { chave: "xxx" },
+      data: { chave: token },
     };
   } else {
     body = {

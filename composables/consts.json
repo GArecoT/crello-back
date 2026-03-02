@@ -2,5 +2,6 @@
   "port": 8000,
   "db": "test",
   "senha_padrao": "senha123",
-  "segredo_jwt": "chave-super-secreta-segredável"
+  "segredo_jwt": "chave-super-secreta-segredável",
+  "expiracao_token": 43200000
 }

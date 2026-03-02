@@ -2,10 +2,11 @@ import { Database } from "@db/sqlite";
 import consts from "../composables/consts.json" with { type: "json" };
 import hash from "../composables/hash.ts";
 
-export default async function (token: string, expirar: number | null = null) {
+export default async function (token: string) {
   const db = new Database(`${consts.db}.db`);
 
   const hashToken = await hash(token);
+  const expirar = Date.now() + consts.expiracao_token;
 
   db.exec(
     `
