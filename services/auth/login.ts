@@ -7,6 +7,7 @@ export default async function (
   method: string,
   _headers: object,
   login: Login,
+  _query: number,
 ): Promise<Response> {
   let body: Resposta;
 
