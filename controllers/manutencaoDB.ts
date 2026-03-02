@@ -17,7 +17,7 @@ export default async function () {
   //Criar table usuarios
   db.exec(
     `CREATE TABLE IF NOT EXISTS usuarios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
     nome TEXT UNIQUE, 
     senha VARCHAR(50), 
     admin BOOLEAN NOT NULL CHECK (admin IN (0, 1)));`,
@@ -36,7 +36,8 @@ export default async function () {
   db.exec(
     `
       CREATE TABLE IF NOT EXISTS tokens(
-      token VARCHAR(50) PRIMARY KEY,
+      token VARCHAR(50) PRIMARY KEY NOT NULL,
+      id_usuario INTEGER NOT NULL,
       expirar DATETIME DEFAULT CURRENT_TIMESTAMP);
       `,
   );

@@ -4,9 +4,9 @@ import fnLogin from "../../controllers/login.ts";
 import salvaToken from "../../controllers/salvaToken.ts";
 
 export default async function (
-  login: Login,
   method: string,
   _headers: object,
+  login: Login,
 ): Promise<Response> {
   let body: Resposta;
 
@@ -36,7 +36,7 @@ export default async function (
   const retLogin = await fnLogin(login);
   if (retLogin.status) {
     const token = await criarToken(login);
-    salvaToken(token);
+    salvaToken(token, retLogin.data.id);
     body = {
       info: { msg: retLogin.msg, cdg_erro: 0 },
       data: { chave: token },
