@@ -16,13 +16,17 @@ export default async function () {
 
   //Criar table usuarios
   db.exec(
-    `CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT UNIQUE, senha VARCHAR(50));`,
+    `CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    nome TEXT UNIQUE, 
+    senha VARCHAR(50), 
+    admin BOOLEAN NOT NULL CHECK (admin IN (0, 1)));`,
   );
 
   try {
     db.exec(
       `
-    INSERT INTO usuarios (id,nome,senha) Values (0,'admin','${senha}')
+    INSERT INTO usuarios (id,nome,senha, admin) Values (0,'admin','${senha}', 1)
       `,
     );
   } catch {
