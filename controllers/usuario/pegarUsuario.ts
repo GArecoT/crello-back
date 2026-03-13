@@ -1,6 +1,6 @@
 import { Database } from "@db/sqlite";
-import consts from "../composables/consts.json" with { type: "json" };
-import { RespostaInterna, Usuario } from "../composables/tipos.ts";
+import consts from "../../composables/consts.json" with { type: "json" };
+import { RespostaInterna, Usuario } from "../../composables/tipos.ts";
 
 export default function (usuario: Usuario, campo = "id"): RespostaInterna {
   const db = new Database(`${consts.db}.db`);

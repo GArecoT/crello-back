@@ -1,6 +1,6 @@
 import { Resposta } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
-import listarUsuarios from "../controllers/listarUsuarios.ts";
+import listarUsuarios from "../controllers/usuario/listarUsuarios.ts";
 
 export default function (
   method: string,

@@ -6,6 +6,8 @@ export type RespostaInterna = {
   data: {
     id?: number | undefined;
     nome?: string | undefined;
+    admin?: boolean | number;
+    [key: string]: any;
   };
 };
 
