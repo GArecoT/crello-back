@@ -1,15 +1,16 @@
-import { Resposta, Usuario } from "../composables/tipos.ts";
+import { Coluna, Resposta, Usuario } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
-import deletarUsuario from "../controllers/usuario/deletarUsuario.ts";
+import deletarColuna from "../controllers/coluna/deletarColuna.ts";
+import pegarColuna from "../controllers/coluna/pegarColuna.ts";
+import salvarColuna from "../controllers/coluna/salvarColuna.ts";
 import pegarUsuario from "../controllers/usuario/pegarUsuario.ts";
-import { salvarUsuario } from "../controllers/usuario/salvarUsuario.ts";
 
-export default async function (
+export default function (
   method: string,
   headers: Headers,
-  usuario: Usuario,
+  coluna: Coluna,
   query?: number | string,
-): Promise<Response> {
+): Response {
   const methods = ["GET", "POST", "DELETE"];
   let body: Resposta = {
     info: { msg: "BAD REQUEST", cdg_erro: 400 },
@@ -68,7 +69,7 @@ export default async function (
   if (method == "GET") {
     if (query === null || query === undefined) {
       body = {
-        info: { msg: "Sem id do usuário", cdg_erro: 666 },
+        info: { msg: "Sem id da coluna", cdg_erro: 666 },
         data: {},
       };
       return new Response(JSON.stringify(body), {
@@ -79,21 +80,21 @@ export default async function (
       });
     }
 
-    const resUsuarios = pegarUsuario({ id: query as number });
+    const resColuna = pegarColuna({ id: query as number });
     body = {
-      info: { msg: resUsuarios.msg, cdg_erro: resUsuarios.status ? 0 : 404 },
-      data: resUsuarios.data,
+      info: { msg: resColuna.msg, cdg_erro: resColuna.status ? 0 : 404 },
+      data: resColuna.data,
     };
     return new Response(JSON.stringify(body), {
-      status: resUsuarios.status ? 200 : 404,
+      status: resColuna.status ? 200 : 404,
       headers: {
         "content-type": "application/json; charset=utf-8",
       },
     });
   }
   if (method == "POST") {
-    //verificar se é admin ou se está tentando editar a si mesmo
-    if (!(query && query == usuarioLogado.id) && !usuarioLogado.admin) {
+    //verificar se é admin
+    if (!usuarioLogado.admin) {
       body = {
         info: { msg: "Não autorizado!", cdg_erro: 401 },
         data: {},
@@ -111,11 +112,11 @@ export default async function (
     } else if (typeof query != "number") {
       query = 0;
     }
-    const resSalvarUsuario = await salvarUsuario(usuario, query);
+    const resSalvarColuna = salvarColuna(coluna, query);
 
-    if (resSalvarUsuario.status) {
+    if (resSalvarColuna.status) {
       body = {
-        info: { msg: resSalvarUsuario.msg, cdg_erro: 0 },
+        info: { msg: resSalvarColuna.msg, cdg_erro: 0 },
         data: {},
       };
       return new Response(JSON.stringify(body), {
@@ -126,7 +127,7 @@ export default async function (
       });
     } else {
       body = {
-        info: { msg: resSalvarUsuario.msg, cdg_erro: 406 },
+        info: { msg: resSalvarColuna.msg, cdg_erro: 406 },
         data: {},
       };
       return new Response(JSON.stringify(body), {
@@ -170,7 +171,7 @@ export default async function (
       query = 0;
     }
 
-    const resDeletar = deletarUsuario(query);
+    const resDeletar = deletarColuna(query);
 
     if (resDeletar.status) {
       body = {

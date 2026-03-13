@@ -87,9 +87,9 @@ export async function salvarUsuario(
     } else {
       db.exec(
         `
-    INSERT INTO usuarios (nome,senha, admin) Values ('${usuario.nome}','${senhaHash}', ${
+        INSERT INTO usuarios (nome,senha, admin) Values ('${usuario.nome}','${senhaHash}', ${
           usuario.admin ? 1 : 0
-        })
+        });
       `,
       );
     }

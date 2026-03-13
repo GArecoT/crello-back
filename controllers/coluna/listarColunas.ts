@@ -4,17 +4,16 @@ import { RespostaInterna } from "../../composables/tipos.ts";
 
 export default function (): RespostaInterna {
   const db = new Database(`${consts.db}.db`);
-  const usuarios = db.prepare(
+  const colunas = db.prepare(
     `
-      SELECT id, nome, admin FROM usuarios
+      SELECT * FROM colunas
       `,
   ).all();
 
   db.close();
-
   return {
     status: true,
-    msg: "Usuários listados com sucesso!",
-    data: usuarios,
+    msg: "Colunas listadas com sucesso!",
+    data: colunas,
   };
 }

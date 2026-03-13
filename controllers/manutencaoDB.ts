@@ -17,21 +17,13 @@ export default async function () {
   const res = await salvarUsuario({
     nome: "admin2",
     senha: consts.senha_padrao,
+    admin: true,
   });
   if (!res.status) {
     console.log(res.msg);
     db.close();
     return;
   }
-  // try {
-  //   db.exec(
-  //     `
-  //   INSERT INTO usuarios (id,nome,senha, admin) Values (0,'admin','${senha}', 1)
-  //     `,
-  //   );
-  // } catch {
-  //   //já está cadastrado o admin
-  // }
 
   db.exec(
     `
@@ -40,6 +32,14 @@ export default async function () {
       id_usuario INTEGER NOT NULL,
       expirar DATETIME DEFAULT CURRENT_TIMESTAMP);
       `,
+  );
+
+  db.exec(
+    `CREATE TABLE IF NOT EXISTS colunas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+    nome TEXT UNIQUE, 
+    ordem INTEGER NOT NULL);
+    `,
   );
 
   db.close();

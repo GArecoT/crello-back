@@ -22,3 +22,9 @@ export type Usuario = {
   senha?: string;
   admin?: boolean;
 };
+
+export type Coluna = {
+  id?: number;
+  nome?: string;
+  ordem?: number;
+};
