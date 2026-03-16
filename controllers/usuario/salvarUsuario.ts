@@ -67,11 +67,11 @@ export async function salvarUsuario(
       if (usuario.senha && usuario.senha.length > 0) {
         db.exec(
           `
-        UPDATE usuarios
-        SET nome = '${usuario.nome}', senha = '${senhaHash}', admin = ${
+          UPDATE usuarios
+          SET nome = '${usuario.nome}', senha = '${senhaHash}', admin = ${
             usuario.admin ? 1 : 0
           }
-        WHERE id = ${id}; 
+          WHERE id = ${id}; 
         `,
         );
       } else {

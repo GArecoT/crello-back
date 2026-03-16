@@ -9,7 +9,7 @@ export default async function () {
   db.exec(
     `CREATE TABLE IF NOT EXISTS usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-    nome TEXT UNIQUE, 
+    nome TINYTEXT UNIQUE, 
     senha VARCHAR(50), 
     admin BOOLEAN NOT NULL CHECK (admin IN (0, 1)));`,
   );
@@ -27,18 +27,30 @@ export default async function () {
 
   db.exec(
     `
-      CREATE TABLE IF NOT EXISTS tokens(
-      token VARCHAR(50) PRIMARY KEY NOT NULL,
-      id_usuario INTEGER NOT NULL,
-      expirar DATETIME DEFAULT CURRENT_TIMESTAMP);
-      `,
+    CREATE TABLE IF NOT EXISTS tokens(
+    token VARCHAR(50) PRIMARY KEY NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    expirar DATETIME DEFAULT CURRENT_TIMESTAMP);
+    `,
   );
 
   db.exec(
-    `CREATE TABLE IF NOT EXISTS colunas (
+    `
+    CREATE TABLE IF NOT EXISTS colunas (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-    nome TEXT UNIQUE, 
+    nome TINYTEXT UNIQUE, 
     ordem INTEGER NOT NULL);
+    `,
+  );
+
+  db.exec(
+    `
+    CREATE TABLE IF NOT EXISTS cards (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+    nome TINYTEXT, 
+    descricao LONGTEXT,
+    id_coluna INTEGER,
+    FOREIGN KEY (id_coluna) REFERENCES colunas(id));
     `,
   );
 

@@ -27,4 +27,15 @@ export type Coluna = {
   id?: number;
   nome?: string;
   ordem?: number;
+  cards?: object;
+};
+
+export type Card = {
+  id?: number;
+  id_coluna?: number;
+  nome?: string;
+  descricao?: string;
+  categorias?: object;
+  midias?: object;
+  historico?: object;
 };

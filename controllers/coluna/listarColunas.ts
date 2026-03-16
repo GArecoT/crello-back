@@ -11,6 +11,14 @@ export default function (): RespostaInterna {
       `,
   ).all();
 
+  colunas.forEach((val, index) => {
+    colunas[index].cards = db.prepare(
+      `
+      SELECT * FROM cards
+      WHERE id_coluna = ${val.id};
+      `,
+    ).all();
+  });
   db.close();
   return {
     status: true,
