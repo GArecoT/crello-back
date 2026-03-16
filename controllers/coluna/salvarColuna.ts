@@ -3,6 +3,7 @@ import { Coluna, RespostaInterna } from "../../composables/tipos.ts";
 import consts from "../../composables/consts.json" with { type: "json" };
 import pegarColuna from "./pegarColuna.ts";
 import listarColunas from "./listarColunas.ts";
+import reorganizarColunas from "../../composables/reorganizarColunas.ts";
 
 export default function (
   coluna: Coluna,
@@ -58,51 +59,7 @@ export default function (
   try {
     //se coluna já existe
     if (id > 0) {
-      db.exec(
-        `
-        UPDATE colunas
-        SET nome = '${coluna.nome}', ordem = '${
-          coluna.ordem || resColuna.data.ordem
-        }'
-        WHERE id = ${id}; 
-        `,
-      );
-      // reorganizar colunas se mudar a ordem
-      if (
-        coluna.ordem && coluna.ordem > 0 && resColuna.data.ordem != coluna.ordem
-      ) {
-        if (coluna.ordem && coluna.ordem > 1) {
-          db.exec(
-            `
-            UPDATE colunas
-            SET ordem = ordem + 1 
-            WHERE ordem > ${coluna.ordem}; 
-            
-            UPDATE colunas
-            SET ordem = ordem - 1 
-            WHERE ordem = ${coluna.ordem} AND id != ${resColuna.data.id}; 
-            `,
-          );
-        } else {
-          console.log(resColuna);
-          console.log(`
-            UPDATE colunas
-            SET ordem = ordem + 1 
-            WHERE ordem >= ${
-            coluna.ordem || resColuna.data.ordem
-          } AND id != ${resColuna.data.id}; 
-            `);
-          db.exec(
-            `
-            UPDATE colunas
-            SET ordem = ordem + 1 
-            WHERE ordem >= ${
-              coluna.ordem || resColuna.data.ordem
-            } AND id != ${resColuna.data.id}; 
-            `,
-          );
-        }
-      }
+      reorganizarColunas({ ...coluna, id: id });
     } //se não criar novo
     else {
       db.exec(

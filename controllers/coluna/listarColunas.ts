@@ -7,6 +7,7 @@ export default function (): RespostaInterna {
   const colunas = db.prepare(
     `
       SELECT * FROM colunas
+      ORDER BY ordem;
       `,
   ).all();
 
