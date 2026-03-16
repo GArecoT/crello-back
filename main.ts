@@ -1,7 +1,10 @@
 import consts from "./composables/consts.json" with { type: "json" };
+import limparTokensVencidos from "./composables/limparTokensVencidos.ts";
 import manutencaoDB from "./controllers/manutencaoDB.ts";
 
 await manutencaoDB();
+limparTokensVencidos();
+setInterval(limparTokensVencidos, 3600000);
 const regexQuery = /\/\d+/gi;
 Deno.serve({ port: consts.port }, async (req) => {
   try {
