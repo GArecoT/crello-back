@@ -1,16 +1,15 @@
-import { Card, Resposta } from "../composables/tipos.ts";
+import { Categoria, Resposta } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
-import deletarCard from "../controllers/cards/deletarCard.ts";
-import pegarCard from "../controllers/cards/pegarCard.ts";
-import salvarCard from "../controllers/cards/salvarCard.ts";
+import deletarCategoria from "../controllers/categorias/deletarCategoria.ts";
+import salvarCategoria from "../controllers/categorias/salvarCategoria.ts";
 
 export default function (
   method: string,
   headers: Headers,
-  card: Card,
+  categoria: Categoria,
   query?: number | string,
 ): Response {
-  const methods = ["GET", "POST", "DELETE"];
+  const methods = ["POST", "DELETE"];
   let body: Resposta = {
     info: { msg: "BAD REQUEST", cdg_erro: 400 },
     data: {},
@@ -42,43 +41,17 @@ export default function (
     });
   }
 
-  if (method == "GET") {
-    if (query === null || query === undefined) {
-      body = {
-        info: { msg: "Sem id do card", cdg_erro: 666 },
-        data: {},
-      };
-      return new Response(JSON.stringify(body), {
-        status: 200,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
-      });
-    }
-
-    const resCard = pegarCard({ id: query as number });
-    body = {
-      info: { msg: resCard.msg, cdg_erro: resCard.status ? 0 : 404 },
-      data: resCard.data,
-    };
-    return new Response(JSON.stringify(body), {
-      status: resCard.status ? 200 : 404,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
-    });
-  }
   if (method == "POST") {
     if (typeof query == "string") {
       query = parseInt(query);
     } else if (typeof query != "number") {
       query = 0;
     }
-    const resSalvarCard = salvarCard(card, query);
+    const resSalvar = salvarCategoria(categoria);
 
-    if (resSalvarCard.status) {
+    if (resSalvar.status) {
       body = {
-        info: { msg: resSalvarCard.msg, cdg_erro: 0 },
+        info: { msg: resSalvar.msg, cdg_erro: 0 },
         data: {},
       };
       return new Response(JSON.stringify(body), {
@@ -89,7 +62,7 @@ export default function (
       });
     } else {
       body = {
-        info: { msg: resSalvarCard.msg, cdg_erro: 406 },
+        info: { msg: resSalvar.msg, cdg_erro: 406 },
         data: {},
       };
       return new Response(JSON.stringify(body), {
@@ -101,26 +74,7 @@ export default function (
     }
   }
   if (method == "DELETE") {
-    if (query === null || query === undefined) {
-      body = {
-        info: { msg: "Sem id do usuário", cdg_erro: 666 },
-        data: {},
-      };
-      return new Response(JSON.stringify(body), {
-        status: 200,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
-      });
-    }
-
-    if (typeof query == "string") {
-      query = parseInt(query);
-    } else if (typeof query != "number") {
-      query = 0;
-    }
-
-    const resDeletar = deletarCard(query);
+    const resDeletar = deletarCategoria(categoria.nome);
 
     if (resDeletar.status) {
       body = {

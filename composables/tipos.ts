@@ -39,3 +39,8 @@ export type Card = {
   midias?: object;
   historico?: object;
 };
+
+export type Categoria = {
+  nome?: string;
+  cor?: string;
+};

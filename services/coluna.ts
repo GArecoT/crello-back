@@ -141,7 +141,7 @@ export default function (
   if (method == "DELETE") {
     if (query === null || query === undefined) {
       body = {
-        info: { msg: "Sem id do usuário", cdg_erro: 666 },
+        info: { msg: "Sem id da coluna", cdg_erro: 666 },
         data: {},
       };
       return new Response(JSON.stringify(body), {

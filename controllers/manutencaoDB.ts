@@ -49,8 +49,17 @@ export default async function () {
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
     nome TINYTEXT, 
     descricao LONGTEXT,
+    categorias: TEXT,
     id_coluna INTEGER,
     FOREIGN KEY (id_coluna) REFERENCES colunas(id));
+    `,
+  );
+
+  db.exec(
+    `
+    CREATE TABLE IF NOT EXISTS categorias (
+    nome TINYTEXT PRIMARY KEY NOT NULL, 
+    cor TINYTEXT);
     `,
   );
 

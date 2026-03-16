@@ -63,10 +63,10 @@ export default function (
     else {
       db.exec(
         `
-        INSERT INTO cards (nome, id_coluna, descricao) 
+        INSERT INTO cards (nome, id_coluna, descricao, categorias) 
         Values ('${card.nome}',${card.id_coluna},'${
           card.descricao || ""
-        }');     
+        }', '${card.categorias}');     
         `,
       );
     }
