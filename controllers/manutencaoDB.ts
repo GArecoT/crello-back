@@ -49,7 +49,6 @@ export default async function () {
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
     nome TINYTEXT, 
     descricao LONGTEXT,
-    categorias: TEXT,
     id_coluna INTEGER,
     FOREIGN KEY (id_coluna) REFERENCES colunas(id));
     `,
@@ -60,6 +59,28 @@ export default async function () {
     CREATE TABLE IF NOT EXISTS categorias (
     nome TINYTEXT PRIMARY KEY NOT NULL, 
     cor TINYTEXT);
+    `,
+  );
+
+  db.exec(
+    `
+    CREATE TABLE IF NOT EXISTS categorias_cards (
+      nome_categoria TINYTEXT,  
+      id_card INTEGER,  
+      FOREIGN KEY (nome_categoria) REFERENCES categorias(nome),
+      FOREIGN KEY (id_card) REFERENCES cards(id)
+    );
+    `,
+  );
+
+  db.exec(
+    `
+    CREATE TABLE IF NOT EXISTS usuarios_cards (
+      id_usuario INTEGER,  
+      id_card INTEGER,  
+      FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
+      FOREIGN KEY (id_card) REFERENCES cards(id)
+    );
     `,
   );
 

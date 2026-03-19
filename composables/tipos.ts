@@ -8,6 +8,7 @@ export type RespostaInterna = {
     nome?: string | undefined;
     admin?: boolean | number;
     [key: string]: any;
+    [key: number]: any;
   };
 };
 
