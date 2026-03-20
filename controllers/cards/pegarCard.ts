@@ -2,6 +2,7 @@ import { Database } from "@db/sqlite";
 import consts from "../../composables/consts.json" with { type: "json" };
 import { Card, RespostaInterna } from "../../composables/tipos.ts";
 import listarCategorias from "./categorias/listarCategorias.ts";
+import listarUsuarios from "./usuarios/listarUsuarios.ts";
 
 export default function (card: Card): RespostaInterna {
   const db = new Database(`${consts.db}.db`);
@@ -14,10 +15,16 @@ export default function (card: Card): RespostaInterna {
 
   if (cards.length > 0) {
     const categorias = listarCategorias(card.id as number);
+    const usuarios = listarUsuarios(card.id as number);
     if (categorias.status) {
       cards[0].categorias = categorias.data;
     } else {
       cards[0].categorias = [];
+    }
+    if (usuarios.status) {
+      cards[0].usuarios = usuarios.data;
+    } else {
+      cards[0].usuarios = [];
     }
     db.close();
     return {

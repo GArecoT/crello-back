@@ -2,6 +2,7 @@ import { Database } from "@db/sqlite";
 import consts from "../../composables/consts.json" with { type: "json" };
 import { Coluna, RespostaInterna } from "../../composables/tipos.ts";
 import listarCategorias from "../cards/categorias/listarCategorias.ts";
+import listarUsuarios from "../cards/usuarios/listarUsuarios.ts";
 
 export default function (coluna: Coluna, campo = "id"): RespostaInterna {
   const db = new Database(`${consts.db}.db`);
@@ -22,10 +23,16 @@ export default function (coluna: Coluna, campo = "id"): RespostaInterna {
       ).all();
       colunas[0].cards.forEach((val: any, index: number) => {
         const categorias = listarCategorias(val.id);
+        const usuarios = listarUsuarios(val.id);
         if (categorias.status) {
           colunas[0].cards[index].categorias = categorias.data;
         } else {
           colunas[0].cards[index].categorias = [];
+        }
+        if (usuarios.status) {
+          colunas[0].cards[index].usuarios = usuarios.data;
+        } else {
+          colunas[0].cards[index].usuarios = [];
         }
       });
       db.close();
