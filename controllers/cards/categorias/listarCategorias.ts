@@ -18,7 +18,7 @@ export default function (id_card: number): RespostaInterna {
     `,
   ).all();
 
-  const categoriasArray = [];
+  const categoriasArray: any[] = [];
 
   categorias.forEach((val) => {
     categoriasArray.push(val.nome_categoria);

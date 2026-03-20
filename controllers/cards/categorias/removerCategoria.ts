@@ -1,8 +1,8 @@
 import { Database } from "@db/sqlite";
 import consts from "../../../composables/consts.json" with { type: "json" };
 
-export default function (card_id: number, categoria_nome: string) {
-  if (!card_id || card_id < 1) {
+export default function (id_card: number, nome_categoria: string) {
+  if (!id_card || id_card < 1) {
     return {
       status: false,
       msg: "Cartão não encontrado",
@@ -10,7 +10,7 @@ export default function (card_id: number, categoria_nome: string) {
     };
   }
 
-  if (!categoria_nome || categoria_nome.length < 1) {
+  if (!nome_categoria || nome_categoria.length < 1) {
     return {
       status: false,
       msg: "Categoria não encontrada",
@@ -22,7 +22,7 @@ export default function (card_id: number, categoria_nome: string) {
     db.exec(
       `
         DELETE FROM categorias_cards
-        WHERE id_card = ${card_id} AND nome_categoria = '${categoria_nome}';
+        WHERE id_card = ${id_card} AND nome_categoria = '${nome_categoria}';
       `,
     );
     db.close();

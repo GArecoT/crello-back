@@ -3,11 +3,11 @@ import { RespostaInterna } from "../../../composables/tipos.ts";
 import consts from "../../../composables/consts.json" with { type: "json" };
 
 export default function (
-  card_id: number,
-  categoria_nome: string,
+  id_card: number,
+  nome_categoria: string,
 ): RespostaInterna {
   try {
-    if (!card_id || card_id < 1) {
+    if (!id_card || id_card < 1) {
       return {
         status: false,
         msg: "Cartão não encontrado",
@@ -15,7 +15,7 @@ export default function (
       };
     }
 
-    if (!categoria_nome || categoria_nome.length < 1) {
+    if (!nome_categoria || nome_categoria.length < 1) {
       return {
         status: false,
         msg: "Categoria não encontrada",
@@ -27,7 +27,7 @@ export default function (
 
     const cards = db.prepare(
       `
-    SELECT id from cards WHERE id = ${card_id};
+    SELECT id from cards WHERE id = ${id_card};
     `,
     ).all();
     if (cards.length < 1) {
@@ -41,7 +41,7 @@ export default function (
 
     const categorias = db.prepare(
       `
-    SELECT nome from categorias WHERE nome = '${categoria_nome}';
+    SELECT nome from categorias WHERE nome = '${nome_categoria}';
     `,
     ).all();
     if (categorias.length < 1) {
@@ -55,7 +55,7 @@ export default function (
 
     const categorias_cards = db.prepare(
       `
-      SELECT nome_categoria from categorias_cards WHERE id_card = ${card_id} AND nome_categoria = '${categoria_nome}';
+      SELECT nome_categoria from categorias_cards WHERE id_card = ${id_card} AND nome_categoria = '${nome_categoria}';
       `,
     ).all();
 
@@ -69,7 +69,7 @@ export default function (
       db.exec(
         `
         INSERT INTO categorias_cards (nome_categoria, id_card) 
-        Values ('${categoria_nome}',${card_id});       `,
+        Values ('${nome_categoria}',${id_card});       `,
       );
       return {
         status: true,
