@@ -1,4 +1,5 @@
 import consts from "./composables/consts.json" with { type: "json" };
+import headers from "./composables/headers.ts";
 import limparTokensVencidos from "./composables/limparTokensVencidos.ts";
 import manutencaoDB from "./controllers/manutencaoDB.ts";
 
@@ -21,6 +22,10 @@ Deno.serve({ port: consts.port }, async (req) => {
     url.pathname = url.pathname.replace(regexQuery, "");
     const servico = await import(`./services${url.pathname}.ts`);
 
+    if (req.method === "OPTIONS") {
+      return new Response(null, { headers: headers });
+    }
+
     if (req.method == "GET") {
       return servico.default(req.method, req.headers, {}, query);
     } else {
@@ -37,9 +42,7 @@ Deno.serve({ port: consts.port }, async (req) => {
     const body = JSON.stringify({ message: "SERVICE NOT FOUND" });
     return new Response(body, {
       status: 404,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 });

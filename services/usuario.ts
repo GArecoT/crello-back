@@ -20,9 +20,7 @@ export default async function (
     body = { info: { msg: "BAD REQUEST", cdg_erro: 400 }, data: {} };
     return new Response(JSON.stringify(body), {
       status: 400,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 
@@ -46,9 +44,7 @@ export default async function (
     };
     return new Response(JSON.stringify(body), {
       status: 401,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 
@@ -59,9 +55,7 @@ export default async function (
     };
     return new Response(JSON.stringify(body), {
       status: 401,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 
@@ -73,9 +67,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 200,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     }
 
@@ -86,9 +78,7 @@ export default async function (
     };
     return new Response(JSON.stringify(body), {
       status: resUsuarios.status ? 200 : 404,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
   if (method == "POST") {
@@ -100,9 +90,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 401,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     }
 
@@ -120,9 +108,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 200,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     } else {
       body = {
@@ -131,9 +117,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 406,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     }
   }
@@ -145,9 +129,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 200,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     }
 
@@ -158,9 +140,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 401,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     }
 
@@ -179,9 +159,7 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 200,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     } else {
       body = {
@@ -190,18 +168,14 @@ export default async function (
       };
       return new Response(JSON.stringify(body), {
         status: 406,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       });
     }
   } else {
     body = { info: { msg: "BAD REQUEST", cdg_erro: 400 }, data: {} };
     return new Response(JSON.stringify(body), {
       status: 400,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 }

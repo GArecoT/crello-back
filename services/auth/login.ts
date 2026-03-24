@@ -1,4 +1,5 @@
 import criarToken from "../../composables/criarToken.ts";
+import headers from "../../composables/headers.ts";
 import { Login, Resposta } from "../../composables/tipos.ts";
 import fnLogin from "../../controllers/login.ts";
 import salvaToken from "../../controllers/salvaToken.ts";
@@ -15,9 +16,7 @@ export default async function (
     body = { info: { msg: "BAD REQUEST", cdg_erro: 400 }, data: {} };
     return new Response(JSON.stringify(body), {
       status: 400,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 
@@ -27,9 +26,7 @@ export default async function (
       JSON.stringify(body),
       {
         status: 400,
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
+        headers: headers,
       },
     );
   }
@@ -51,8 +48,6 @@ export default async function (
 
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-    },
+    headers: headers,
   });
 }

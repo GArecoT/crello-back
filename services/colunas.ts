@@ -15,9 +15,7 @@ export default function (
     body = { info: { msg: "BAD REQUEST", cdg_erro: 400 }, data: {} };
     return new Response(JSON.stringify(body), {
       status: 400,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 
@@ -31,9 +29,7 @@ export default function (
     };
     return new Response(JSON.stringify(body), {
       status: 401,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 
@@ -45,17 +41,13 @@ export default function (
     };
     return new Response(JSON.stringify(body), {
       status: 200,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   } else {
     body = { info: { msg: "BAD REQUEST", cdg_erro: 400 }, data: {} };
     return new Response(JSON.stringify(body), {
       status: 400,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
+      headers: headers,
     });
   }
 }
