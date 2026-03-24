@@ -1,3 +1,4 @@
+import headers from "../composables/headers.ts";
 import { Categoria, Resposta } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
 import deletarCategoria from "../controllers/categorias/deletarCategoria.ts";
@@ -5,7 +6,7 @@ import salvarCategoria from "../controllers/categorias/salvarCategoria.ts";
 
 export default function (
   method: string,
-  headers: Headers,
+  reqHeaders: Headers,
   categoria: Categoria,
   query?: number | string,
 ): Response {
@@ -23,7 +24,7 @@ export default function (
     });
   }
 
-  const token = headers.get("Authorization");
+  const token = reqHeaders.get("Authorization");
   const res = verificaToken(token);
 
   if (res.status !== true) {

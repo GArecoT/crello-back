@@ -1,10 +1,11 @@
+import headers from "../composables/headers.ts";
 import { Resposta } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
 import listarUsuarios from "../controllers/usuario/listarUsuarios.ts";
 
 export default function (
   method: string,
-  headers: Headers,
+  reqHeaders: Headers,
   _object: object,
   _query: number,
 ): Response {
@@ -19,7 +20,7 @@ export default function (
     });
   }
 
-  const token = headers.get("Authorization");
+  const token = reqHeaders.get("Authorization");
   const res = verificaToken(token);
 
   if (res.status !== true) {

@@ -1,3 +1,4 @@
+import headers from "../composables/headers.ts";
 import { Resposta, Usuario } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
 import deletarUsuario from "../controllers/usuario/deletarUsuario.ts";
@@ -6,7 +7,7 @@ import { salvarUsuario } from "../controllers/usuario/salvarUsuario.ts";
 
 export default async function (
   method: string,
-  headers: Headers,
+  reqHeaders: Headers,
   usuario: Usuario,
   query?: number | string,
 ): Promise<Response> {
@@ -24,7 +25,7 @@ export default async function (
     });
   }
 
-  const token = headers.get("Authorization");
+  const token = reqHeaders.get("Authorization");
   const res = verificaToken(token);
   const resUsuarioLogado = pegarUsuario({ id: res.data.id_usuario });
   let usuarioLogado: Usuario;

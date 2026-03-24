@@ -1,3 +1,4 @@
+import headers from "../composables/headers.ts";
 import { Card, Resposta } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
 import deletarCard from "../controllers/cards/deletarCard.ts";
@@ -6,7 +7,7 @@ import salvarCard from "../controllers/cards/salvarCard.ts";
 
 export default function (
   method: string,
-  headers: Headers,
+  reqHeaders: Headers,
   card: Card,
   query?: number | string,
 ): Response {
@@ -24,7 +25,7 @@ export default function (
     });
   }
 
-  const token = headers.get("Authorization");
+  const token = reqHeaders.get("Authorization");
   const res = verificaToken(token);
 
   if (res.status !== true) {

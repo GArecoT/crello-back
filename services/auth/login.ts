@@ -47,7 +47,7 @@ export default async function (
   }
 
   return new Response(JSON.stringify(body), {
-    status: 200,
+    status: retLogin.status ? 200 : 400,
     headers: headers,
   });
 }

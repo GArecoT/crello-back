@@ -3,10 +3,11 @@ import { verificaToken } from "../../composables/verificaToken.ts";
 import adicionarUsuario from "../../controllers/cards/usuarios/adicionarUsuario.ts";
 import removerUsuario from "../../controllers/cards/usuarios/removerUsuario.ts";
 import listarUsuarios from "../../controllers/cards/usuarios/listarUsuarios.ts";
+import headers from "../../composables/headers.ts";
 
 export default function (
   method: string,
-  headers: Headers,
+  reqHeaders: Headers,
   usuario: Usuario,
   query?: number | string,
 ): Response {
@@ -24,7 +25,7 @@ export default function (
     });
   }
 
-  const token = headers.get("Authorization");
+  const token = reqHeaders.get("Authorization");
   const res = verificaToken(token);
 
   if (res.status !== true) {

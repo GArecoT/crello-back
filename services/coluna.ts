@@ -1,3 +1,4 @@
+import headers from "../composables/headers.ts";
 import { Coluna, Resposta, Usuario } from "../composables/tipos.ts";
 import { verificaToken } from "../composables/verificaToken.ts";
 import deletarColuna from "../controllers/coluna/deletarColuna.ts";
@@ -7,7 +8,7 @@ import pegarUsuario from "../controllers/usuario/pegarUsuario.ts";
 
 export default function (
   method: string,
-  headers: Headers,
+  reqHeaders: Headers,
   coluna: Coluna,
   query?: number | string,
 ): Response {
@@ -25,7 +26,7 @@ export default function (
     });
   }
 
-  const token = headers.get("Authorization");
+  const token = reqHeaders.get("Authorization");
   const res = verificaToken(token);
   const resUsuarioLogado = pegarUsuario({ id: res.data.id_usuario });
   let usuarioLogado: Usuario;
