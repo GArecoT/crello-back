@@ -1,21 +1,21 @@
 import { Database } from "@db/sqlite";
-import { Categoria, RespostaInterna } from "../../composables/tipos.ts";
+import { Cache, RespostaInterna } from "../../composables/tipos.ts";
 import consts from "../../composables/consts.json" with { type: "json" };
 
 export default function (
-  categoria: Categoria,
+  cache: Cache,
 ): RespostaInterna {
   let resposta: RespostaInterna = {
     status: false,
     msg: "",
     data: {},
   };
-  const chaves: (keyof Categoria)[] = ["nome", "cor"];
+  const chaves: (keyof Cache)[] = ["servico", "json"];
   const resCampos = chaves.every((chave) => {
     if (
-      categoria[chave] === null || categoria[chave] === undefined ||
-      typeof categoria[chave] != "string" ||
-      categoria[chave]?.length === 0
+      cache[chave] === null || cache[chave] === undefined ||
+      typeof cache[chave] != "string" ||
+      cache[chave]?.length === 0
     ) {
       resposta = {
         status: false,
@@ -32,28 +32,30 @@ export default function (
 
   const db = new Database(`${consts.db}.db`);
 
-  const categorias = db.prepare(
+  const listaCache = db.prepare(
     `
-    SELECT * from categorias WHERE nome = '${categoria.nome}';
+    SELECT * from cache WHERE servico = '${cache.servico}';
     `,
   ).all();
 
   try {
     //se categoria já existe
-    if (categorias.length > 0) {
+    if (listaCache.length > 0) {
       db.exec(
         `
-        UPDATE categorias
-        SET nome = '${categoria.nome}', cor = '${categoria.cor}'
-        WHERE nome = '${categoria.nome}'; 
+        UPDATE cache
+        SET json = '${
+          JSON.stringify(cache.json)
+        }', timestamp = CURRENT_TIMESTAMP
+        WHERE servico = '${cache.servico}'; 
         `,
       );
     } //se não criar novo
     else {
       db.exec(
         `
-        INSERT INTO categorias (nome, cor) 
-        Values ('${categoria.nome}', '${categoria.cor}');        
+        INSERT INTO cache (servico, json) 
+        Values ('${cache.servico}', '${JSON.stringify(cache.json)}');        
         `,
       );
     }

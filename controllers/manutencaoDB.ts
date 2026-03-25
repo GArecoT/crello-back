@@ -84,5 +84,15 @@ export default async function () {
     `,
   );
 
+  db.exec(
+    `
+    CREATE TABLE IF NOT EXISTS cache (
+      servico VARCHAR(100) PRIMARY KEY NOT NULL,  
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+      json LONGTEXT
+    );
+    `,
+  );
+
   db.close();
 }

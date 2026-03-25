@@ -45,3 +45,9 @@ export type Categoria = {
   nome?: string;
   cor?: string;
 };
+
+export type Cache = {
+  servico?: string;
+  timestamp?: string;
+  json?: { [key: number | string]: any };
+};
