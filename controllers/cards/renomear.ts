@@ -1,6 +1,7 @@
 import { Database } from "@db/sqlite";
 import { RespostaInterna } from "../../composables/tipos.ts";
 import consts from "../../composables/consts.json" with { type: "json" };
+import removeCache from "../cache/removeCache.ts";
 
 export default function (
   id_card: number,
@@ -25,8 +26,7 @@ export default function (
         WHERE id = ${id_card}; 
         `,
       );
-    } //se não criar novo
-    else {
+    } else {
       db.close();
       return {
         status: false,
@@ -35,6 +35,7 @@ export default function (
       };
     }
     db.close();
+    removeCache("listarColunas");
     return {
       status: true,
       msg: "Card salvo com sucesso!",

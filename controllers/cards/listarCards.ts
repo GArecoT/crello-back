@@ -1,11 +1,12 @@
 import consts from "../../composables/consts.json" with { type: "json" };
 import { Database } from "@db/sqlite";
 import { RespostaInterna } from "../../composables/tipos.ts";
+import removeCache from "../cache/removeCache.ts";
 
 export default function (id_coluna: number): RespostaInterna {
   if (!id_coluna || id_coluna < 1) {
     return {
-      status: true,
+      status: false,
       msg: "Coluna inválida",
       data: {},
     };
@@ -19,6 +20,7 @@ export default function (id_coluna: number): RespostaInterna {
   ).all();
 
   db.close();
+  removeCache("listarColunas");
   return {
     status: true,
     msg: "Cartões encontrados com sucesso",

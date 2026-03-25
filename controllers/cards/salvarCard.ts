@@ -1,6 +1,7 @@
 import { Database } from "@db/sqlite";
 import { Card, RespostaInterna } from "../../composables/tipos.ts";
 import consts from "../../composables/consts.json" with { type: "json" };
+import removeCache from "../cache/removeCache.ts";
 
 export default function (
   card: Card,
@@ -71,6 +72,7 @@ export default function (
       );
     }
     db.close();
+    removeCache("listarColunas");
     return {
       status: true,
       msg: "Card salvo com sucesso!",

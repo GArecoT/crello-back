@@ -3,8 +3,19 @@ import { Database } from "@db/sqlite";
 import { RespostaInterna } from "../../composables/tipos.ts";
 import listarCategorias from "../cards/categorias/listarCategorias.ts";
 import listarUsuarios from "../cards/usuarios/listarUsuarios.ts";
+import salvaCache from "../cache/salvaCache.ts";
+import listaCache from "../cache/listaCache.ts";
 
 export default function (): RespostaInterna {
+  const resCache = listaCache("listarColunas");
+  if (resCache.status) {
+    // console.log("tem cache");
+    return {
+      status: true,
+      msg: "Colunas listadas com sucesso!",
+      data: resCache.data.json,
+    };
+  }
   const db = new Database(`${consts.db}.db`);
   const colunas = db.prepare(
     `
@@ -36,6 +47,7 @@ export default function (): RespostaInterna {
     });
   });
   db.close();
+  salvaCache({ servico: "listarColunas", json: colunas });
   return {
     status: true,
     msg: "Colunas listadas com sucesso!",

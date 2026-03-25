@@ -1,11 +1,12 @@
 import consts from "../../../composables/consts.json" with { type: "json" };
 import { Database } from "@db/sqlite";
 import { RespostaInterna } from "../../../composables/tipos.ts";
+import removeCache from "../../cache/removeCache.ts";
 
 export default function (id_card: number): RespostaInterna {
   if (!id_card || id_card < 1) {
     return {
-      status: true,
+      status: false,
       msg: "Card inválido",
       data: {},
     };
@@ -25,6 +26,7 @@ export default function (id_card: number): RespostaInterna {
   });
 
   db.close();
+  removeCache("listarColunas");
   return {
     status: true,
     msg: "Categorias do cartão encontrados com sucesso",

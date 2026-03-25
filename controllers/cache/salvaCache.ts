@@ -10,7 +10,7 @@ export default function (
     msg: "",
     data: {},
   };
-  const chaves: (keyof Cache)[] = ["servico", "json"];
+  const chaves: (keyof Cache)[] = ["servico"];
   const resCampos = chaves.every((chave) => {
     if (
       cache[chave] === null || cache[chave] === undefined ||
@@ -46,7 +46,7 @@ export default function (
         UPDATE cache
         SET json = '${
           JSON.stringify(cache.json)
-        }', timestamp = CURRENT_TIMESTAMP
+        }', timestamp = CURRENT_TIMESTAMP, expirado = 0
         WHERE servico = '${cache.servico}'; 
         `,
       );

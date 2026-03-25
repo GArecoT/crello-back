@@ -1,6 +1,7 @@
 import { Database } from "@db/sqlite";
 import { RespostaInterna } from "../../../composables/tipos.ts";
 import consts from "../../../composables/consts.json" with { type: "json" };
+import removeCache from "../../cache/removeCache.ts";
 
 export default function (
   id_card: number,
@@ -71,6 +72,8 @@ export default function (
         INSERT INTO categorias_cards (nome_categoria, id_card) 
         Values ('${nome_categoria}',${id_card});       `,
       );
+
+      removeCache("listarColunas");
       return {
         status: true,
         msg: "Categoria adicionada com sucesso",

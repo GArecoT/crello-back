@@ -3,6 +3,7 @@ import consts from "../../composables/consts.json" with { type: "json" };
 import { Card, RespostaInterna } from "../../composables/tipos.ts";
 import listarCategorias from "./categorias/listarCategorias.ts";
 import listarUsuarios from "./usuarios/listarUsuarios.ts";
+import removeCache from "../cache/removeCache.ts";
 
 export default function (card: Card): RespostaInterna {
   const db = new Database(`${consts.db}.db`);
@@ -27,6 +28,8 @@ export default function (card: Card): RespostaInterna {
       cards[0].usuarios = [];
     }
     db.close();
+
+    removeCache("listarColunas");
     return {
       status: true,
       msg: "Card encontrado!",

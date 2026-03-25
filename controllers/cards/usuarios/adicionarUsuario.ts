@@ -1,6 +1,7 @@
 import { Database } from "@db/sqlite";
 import { RespostaInterna } from "../../../composables/tipos.ts";
 import consts from "../../../composables/consts.json" with { type: "json" };
+import removeCache from "../../cache/removeCache.ts";
 
 export default function (
   id_card: number,
@@ -71,6 +72,7 @@ export default function (
         INSERT INTO usuarios_cards (id_usuario, id_card) 
         Values (${id_usuario},${id_card});       `,
       );
+      removeCache("listarColunas");
       return {
         status: true,
         msg: "Usuário adicionado com sucesso",

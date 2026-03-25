@@ -1,5 +1,6 @@
 import { Database } from "@db/sqlite";
 import consts from "../../../composables/consts.json" with { type: "json" };
+import removeCache from "../../cache/removeCache.ts";
 
 export default function (id_card: number, id_usuario: number) {
   if (!id_card || id_card < 1) {
@@ -26,6 +27,7 @@ export default function (id_card: number, id_usuario: number) {
       `,
     );
     db.close();
+    removeCache("listarColunas");
     return {
       status: true,
       msg: "Usuário removido com sucesso!",

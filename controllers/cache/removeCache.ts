@@ -14,7 +14,7 @@ export default function (servico: string = "") {
       db.close();
       return {
         status: true,
-        msg: "Categoria deletada com sucesso!",
+        msg: "Cache deletado com sucesso!",
         data: {},
       };
     } catch (e) {

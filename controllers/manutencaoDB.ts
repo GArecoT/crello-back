@@ -89,7 +89,8 @@ export default async function () {
     CREATE TABLE IF NOT EXISTS cache (
       servico VARCHAR(100) PRIMARY KEY NOT NULL,  
       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-      json LONGTEXT
+      json LONGTEXT,
+      expirado BOOLEAN NOT NULL CHECK (expirado IN (0, 1)) DEFAULT 0
     );
     `,
   );

@@ -4,6 +4,7 @@ import consts from "../../composables/consts.json" with { type: "json" };
 import pegarColuna from "./pegarColuna.ts";
 import listarColunas from "./listarColunas.ts";
 import reorganizarColunas from "../../composables/reorganizarColunas.ts";
+import removeCache from "../cache/removeCache.ts";
 
 export default function (
   coluna: Coluna,
@@ -71,6 +72,8 @@ export default function (
       );
     }
     db.close();
+
+    removeCache("listarColunas");
     return {
       status: true,
       msg: "Coluna salva com sucesso!",
