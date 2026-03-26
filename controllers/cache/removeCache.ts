@@ -5,12 +5,12 @@ export default function (servico: string = "") {
   if (servico.length > 0) {
     const db = new Database(`${consts.db}.db`);
     try {
-      db.exec(
+      db.prepare(
         `
         DELETE FROM cache
-        WHERE servico = '${servico}'; 
+        WHERE servico = :servico; 
         `,
-      );
+      ).run({servico: servico});
       db.close();
       return {
         status: true,

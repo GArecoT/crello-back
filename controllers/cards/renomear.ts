@@ -19,13 +19,13 @@ export default function (
   try {
     //se Card já existe
     if (id_card > 0) {
-      db.exec(
+      db.prepare(
         `
         UPDATE cards
-        SET nome = '${nome}'
-        WHERE id = ${id_card}; 
+        SET nome = :nome
+        WHERE id = :id_card 
         `,
-      );
+      ).run({ nome: nome, id_card: id_card });
     } else {
       db.close();
       return {

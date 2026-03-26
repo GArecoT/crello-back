@@ -14,13 +14,13 @@ export default function (coluna: Coluna) {
 
   colunas.forEach((val, index) => {
     if (val.ordem != index + 1) {
-      db.exec(
+      db.prepare(
         `
         UPDATE colunas
-        SET ordem = ${index + 1} 
-        WHERE id == ${val.id}; 
+        SET ordem = :ordem
+        WHERE id == :id; 
         `,
-      );
+      ).run({ ordem: index + 1, id: val.id });
     }
   });
 
@@ -32,32 +32,40 @@ export default function (coluna: Coluna) {
   }
 
   if (coluna.ordem && colunaOriginal.ordem < coluna.ordem) {
-    db.exec(
+    db.prepare(
       `
       UPDATE colunas
       SET ordem = ordem - 1 
-      WHERE id != ${coluna.id} AND ordem > ${colunaOriginal.ordem} AND ordem <= ${coluna.ordem}; 
+      WHERE id != :id AND ordem > :ordemOriginal AND ordem <= :novaOrdem; 
 
       `,
-    );
+    ).run({
+      id: coluna.id,
+      ordemOriginal: colunaOriginal.ordem,
+      novaOrdem: coluna.ordem,
+    });
   } else {
-    db.exec(
+    db.prepare(
       `
       UPDATE colunas
       SET ordem = ordem + 1 
-      WHERE id != ${coluna.id} AND ordem < ${colunaOriginal.ordem} AND ordem >= ${coluna.ordem}; 
+      WHERE id != :id AND ordem < :ordemOriginal AND ordem >= :novaOrdem; 
       `,
-    );
+    ).run({
+      id: coluna.id,
+      ordemOriginal: colunaOriginal.ordem,
+      novaOrdem: coluna.ordem,
+    });
   }
 
   //Inserir coluna
-  db.exec(
+  db.prepare(
     `
     UPDATE colunas
-    SET nome = '${coluna.nome}', ordem = ${coluna.ordem}
-    WHERE id == ${coluna.id}; 
+    SET nome = :nome, ordem = :ordem
+    WHERE id == :id; 
     `,
-  );
+  ).run({ nome: coluna.nome, ordem: coluna.ordem, id: coluna.id });
   //
   db.close();
 }

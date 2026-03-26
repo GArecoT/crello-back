@@ -65,33 +65,38 @@ export async function salvarUsuario(
     //se usuario já existe
     if (id > 0) {
       if (usuario.senha && usuario.senha.length > 0) {
-        db.exec(
+        db.prepare(
           `
           UPDATE usuarios
-          SET nome = '${usuario.nome}', senha = '${senhaHash}', admin = ${
-            usuario.admin ? 1 : 0
-          }
-          WHERE id = ${id}; 
+          SET nome = :nome, senha = :senha, admin = :admin
+          WHERE id = :id; 
         `,
-        );
+        ).run({
+          nome: usuario.nome,
+          senha: senhaHash,
+          admin: usuario.admin ? 1 : 0,
+          id: id,
+        });
       } else {
-        db.exec(
+        db.prepare(
           `
         UPDATE usuarios
-        SET nome = '${usuario.nome}', admin = ${usuario.admin ? 1 : 0}
-        WHERE id = ${id}; 
+        SET nome = :nome, admin = :admin
+        WHERE id = :id; 
         `,
-        );
+        ).run({ nome: usuario.nome, admin: usuario.admin ? 1 : 0, id: id });
       }
       //se não criar novo
     } else {
-      db.exec(
+      db.prepare(
         `
-        INSERT INTO usuarios (nome,senha, admin) Values ('${usuario.nome}','${senhaHash}', ${
-          usuario.admin ? 1 : 0
-        });
+        INSERT INTO usuarios (nome,senha,admin) Values (:nome,:senha,:admin)});
       `,
-      );
+      ).run({
+        nome: usuario.nome,
+        senha: senhaHash,
+        admin: usuario.admin ? 1 : 0,
+      });
     }
     db.close();
     return {

@@ -41,23 +41,24 @@ export default function (
   try {
     //se categoria já existe
     if (listaCache.length > 0) {
-      db.exec(
+      db.prepare(
         `
         UPDATE cache
-        SET json = '${
-          JSON.stringify(cache.json)
-        }', timestamp = CURRENT_TIMESTAMP, expirado = 0
-        WHERE servico = '${cache.servico}'; 
+        SET json = :json, timestamp = CURRENT_TIMESTAMP, expirado = 0
+        WHERE servico = :servico; 
         `,
-      );
+      ).run({
+        json: JSON.stringify(cache.json),
+        servico: cache.servico,
+      });
     } //se não criar novo
     else {
-      db.exec(
+      db.prepare(
         `
         INSERT INTO cache (servico, json) 
-        Values ('${cache.servico}', '${JSON.stringify(cache.json)}');        
+        Values (:servico, :json);        
         `,
-      );
+      ).run({ servico: cache.servico, json: JSON.stringify(cache.json) });
     }
     db.close();
     return {

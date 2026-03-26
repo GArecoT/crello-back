@@ -67,11 +67,11 @@ export default function (
         data: {},
       };
     } else {
-      db.exec(
+      db.prepare(
         `
         INSERT INTO usuarios_cards (id_usuario, id_card) 
-        Values (${id_usuario},${id_card});       `,
-      );
+        Values (:id_usuario,:id_card);       `,
+      ).run({ id_usuario: id_usuario, id_card: id_card });
       removeCache("listarColunas");
       return {
         status: true,

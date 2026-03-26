@@ -9,7 +9,7 @@ import listaCache from "../cache/listaCache.ts";
 export default function (): RespostaInterna {
   const resCache = listaCache("listarColunas");
   if (resCache.status) {
-    // console.log("tem cache");
+    console.log("tem cache");
     return {
       status: true,
       msg: "Colunas listadas com sucesso!",

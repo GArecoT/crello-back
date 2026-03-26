@@ -20,12 +20,12 @@ export default function (id_card: number, nome_categoria: string) {
   }
   const db = new Database(`${consts.db}.db`);
   try {
-    db.exec(
+    db.prepare(
       `
         DELETE FROM categorias_cards
-        WHERE id_card = ${id_card} AND nome_categoria = '${nome_categoria}';
+        WHERE id_card = :id_card AND nome_categoria = :nome_categoria;
       `,
-    );
+    ).run({ id_card: id_card, nome_categoria: nome_categoria });
     db.close();
     removeCache("listarColunas");
     return {

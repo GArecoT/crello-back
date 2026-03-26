@@ -67,11 +67,11 @@ export default function (
         data: {},
       };
     } else {
-      db.exec(
+      db.prepare(
         `
         INSERT INTO categorias_cards (nome_categoria, id_card) 
-        Values ('${nome_categoria}',${id_card});       `,
-      );
+        Values (:nome_categoria,:id_card);       `,
+      ).run({ nome_categoria: nome_categoria, id_card: id_card });
 
       removeCache("listarColunas");
       return {

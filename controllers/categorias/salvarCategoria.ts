@@ -41,21 +41,21 @@ export default function (
   try {
     //se categoria já existe
     if (categorias.length > 0) {
-      db.exec(
+      db.prepare(
         `
         UPDATE categorias
-        SET nome = '${categoria.nome}', cor = '${categoria.cor}'
-        WHERE nome = '${categoria.nome}'; 
+        SET nome = :nome, cor = :cor
+        WHERE nome = :nome; 
         `,
-      );
+      ).run({ nome: categoria.nome, cor: categoria.cor });
     } //se não criar novo
     else {
-      db.exec(
+      db.prepare(
         `
         INSERT INTO categorias (nome, cor) 
-        Values ('${categoria.nome}', '${categoria.cor}');        
+        Values (:nome, :cor);        
         `,
-      );
+      ).run({ nome: categoria.nome, cor: categoria.cor });
     }
     db.close();
     return {

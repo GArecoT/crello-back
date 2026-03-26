@@ -33,13 +33,13 @@ export default function (
   try {
     //se Card já existe
     if (id_card > 0) {
-      db.exec(
+      db.prepare(
         `
         UPDATE cards
-        SET id_coluna = ${id_coluna}
-        WHERE id = ${id_card}; 
+        SET id_coluna = :id_coluna
+        WHERE id = :id_card; 
         `,
-      );
+      ).run({ id_coluna: id_coluna, id_card: id_card });
     } //se não criar novo
     else {
       db.close();

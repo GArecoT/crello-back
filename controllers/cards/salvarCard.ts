@@ -51,25 +51,30 @@ export default function (
   try {
     //se Card já existe
     if (id > 0) {
-      db.exec(
+      db.prepare(
         `
         UPDATE cards
-        SET nome = '${card.nome}', id_coluna = ${card.id_coluna},  descricao = '${
-          card.descricao || ""
-        }'
-        WHERE id = ${id}; 
+        SET nome = :nome, id_coluna = :id_coluna,  descricao = :descricao
+        WHERE id = :id 
         `,
-      );
+      ).run({
+        nome: card.nome,
+        id_coluna: card.id_coluna,
+        descricao: card.descricao || "",
+        id: id,
+      });
     } //se não criar novo
     else {
-      db.exec(
+      db.prepare(
         `
-        INSERT INTO cards (nome, id_coluna, descricao, categorias) 
-        Values ('${card.nome}',${card.id_coluna},'${
-          card.descricao || ""
-        }', '${card.categorias}');     
+        INSERT INTO cards (nome, id_coluna, descricao) 
+        Values (:nome,:id_coluna,:descricao);     
         `,
-      );
+      ).run({
+        nome: card.nome,
+        id_coluna: card.id_coluna,
+        descricao: card.descricao,
+      });
     }
     db.close();
     removeCache("listarColunas");

@@ -5,12 +5,12 @@ export default function (nome: string = "") {
   if (nome.length > 0) {
     const db = new Database(`${consts.db}.db`);
     try {
-      db.exec(
+      db.prepare(
         `
         DELETE FROM categorias
-        WHERE nome = '${nome}'; 
+        WHERE nome = :nome; 
         `,
-      );
+      ).run({ nome: nome });
       db.close();
       return {
         status: true,

@@ -63,13 +63,11 @@ export default function (
       reorganizarColunas({ ...coluna, id: id });
     } //se não criar novo
     else {
-      db.exec(
+      db.prepare(
         `
-        INSERT INTO colunas (nome, ordem) Values ('${coluna.nome}',${
-          resColunas.data.length + 1
-        });     
+        INSERT INTO colunas (nome, ordem) Values (:colunaNome,:ordem);     
         `,
-      );
+      ).run({ colunaNome: coluna.nome, ordem: resColunas.data.length + 1 });
     }
     db.close();
 

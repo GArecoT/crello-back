@@ -6,12 +6,12 @@ export default function (id: number = 0) {
   if (id > 0) {
     const db = new Database(`${consts.db}.db`);
     try {
-      db.exec(
+      db.prepare(
         `
         DELETE FROM colunas
-        WHERE id = ${id}; 
+        WHERE id = :id; 
         `,
-      );
+      ).run({ id: id });
       db.close();
 
       // TODO: DELETAR OS CARDS EMITIDOS PARA ESSA COLUNA
