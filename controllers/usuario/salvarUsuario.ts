@@ -90,7 +90,7 @@ export async function salvarUsuario(
     } else {
       db.prepare(
         `
-        INSERT INTO usuarios (nome,senha,admin) Values (:nome,:senha,:admin)});
+        INSERT INTO usuarios (nome,senha,admin) Values (:nome,:senha,:admin);
       `,
       ).run({
         nome: usuario.nome,
