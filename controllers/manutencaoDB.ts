@@ -67,6 +67,8 @@ export default async function () {
     CREATE TABLE IF NOT EXISTS categorias_cards (
       nome_categoria TINYTEXT,  
       id_card INTEGER,  
+      criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+      modificado DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (nome_categoria) REFERENCES categorias(nome),
       FOREIGN KEY (id_card) REFERENCES cards(id)
     );
